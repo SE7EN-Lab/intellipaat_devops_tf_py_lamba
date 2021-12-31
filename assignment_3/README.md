@@ -3,7 +3,7 @@
 #### Assignment 3
 Problem statement:
 1. Write terraform code to Build below infrastructure on AWS
-![AWS](images/assignment_3.png "AWS VPC")
+![AWS](../images/assignment_3.png "AWS VPC")
 
 #### Steps
 1. On local system, Install aws cli, terraform
