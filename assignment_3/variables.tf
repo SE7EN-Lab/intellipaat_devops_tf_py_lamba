@@ -1,0 +1,19 @@
+# Variable declaration used in main.tf
+variable "aws_region" {}
+variable "vpc_cidr" {}
+variable "vpc_tag" {}
+variable "public_subnet_1" {}
+variable "public_subnet_2" {}
+variable "private_subnet_1" {}
+variable "private_subnet_2" {}
+variable "az_1" {}
+variable "az_2" {}
+variable "public_snet1_tag" {}
+variable "public_snet2_tag" {}
+variable "private_snet1_tag" {}
+variable "private_snet2_tag" {}
+variable "igw_main" {}
+variable "crt_public" {}
+variable "gw_nat" {}
+variable "ami_id" {}
+variable "inst_type" {}
