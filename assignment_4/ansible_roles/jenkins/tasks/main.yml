@@ -1,0 +1,16 @@
+---
+ - name: Update APT cache
+   apt:
+     update_cache: yes
+ 
+ - name: Download Jenkins APT Repo key
+   apt_key: url=https://pkg.jenkins.io/debian-stable/jenkins.io.key state=present
+ 
+ - name: Configure Jenkins APT Repository
+   apt_repository: repo='deb https://pkg.jenkins.io/debian-stable binary/' state=present
+
+ - name: Install Jenkins
+   apt: name=jenkins update_cache=yes
+
+ - name: Start Jenkins
+   service: name=jenkins state=started

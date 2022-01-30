@@ -1,0 +1,15 @@
+---
+- hosts: jenkins
+  tasks:
+    - name: Update APT manager repo cache
+      become: true
+      apt:
+        update_cache: yes
+    - name: Install JAVA, Maven
+      become: true
+      apt:
+        pkg:
+          - openjdk-11-jdk
+          - maven
+        state: present
+        update_cache: true

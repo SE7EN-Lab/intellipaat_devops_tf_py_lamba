@@ -1,0 +1,11 @@
+---
+- hosts: jenkins
+  remote_user: ubuntu 
+  become: yes
+  become_user: root
+  become_method: sudo
+
+  roles:
+    - tomcat
+    - jenkins
+    - nexus-oss

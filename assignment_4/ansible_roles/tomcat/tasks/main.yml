@@ -1,0 +1,64 @@
+---
+  - name: Update APT cache
+    apt:
+      update_cache: yes
+
+  - name: Intall JDK
+    apt: 
+      name: openjdk-11-jdk
+      state: present
+
+  - name: Add Tomcat group
+    group:
+      name: tomcat
+
+  - name: Add tomcat user
+    user:
+      name: tomcat
+      group: tomcat
+      home: /usr/share/tomcat
+      createhome: no
+
+  - name: Create tomcat directory
+    file:
+      path: /opt/tomcat
+      state: directory
+      mode: 0755
+
+  - name: Download Tomcat archive
+    get_url: url=https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.75/bin/apache-tomcat-8.5.75.tar.gz dest=/opt/tomcat/apache-tomcat-8.5.75.tar.gz
+
+  - name: Extract Archive
+    command: chdir=/usr/share /usr/bin/tar xvf /opt/tomcat/apache-tomcat-8.5.75.tar.gz -C /opt/tomcat/ creates=/opt/tomcat/apache-tomcat-8.5.75 
+
+  - name: Symlink Install directory
+    file: src=/opt/tomcat/apache-tomcat-8.5.75 path=/usr/share/tomcat state=link
+
+  - name: Change ownership of tomcat installation
+    file: path=/usr/share/tomcat/ owner=tomcat group=tomcat state=directory recurse=yes
+
+  - name: Configure Tomcat server
+    template: src=server.xml dest=/usr/share/tomcat/conf/
+    notify: restart tomcat
+
+  - name: Configure Tomcat users
+    template: src=tomcat-users.xml.j2 dest=/usr/share/tomcat/conf/tomcat-users.xml
+    notify: restart tomcat
+
+  - name: Install Tomcat service file
+    template:
+      src: templates/tomcat.service.j2
+      dest: /etc/systemd/system/tomcat.service
+
+  - name: Start Tomcat
+    service: daemon_reload=yes name=tomcat state=started enabled=yes
+  
+  - name: Allow access to Manager and Host Manager apps from any IP
+    template:
+      src: context.xml.j2 
+      dest: "{{ item }}"
+    with_items:
+      - /usr/share/tomcat/webapps/host-manager/META-INF/context.xml
+      - /usr/share/tomcat/webapps/manager/META-INF/context.xml
+    notify: restart tomcat
+

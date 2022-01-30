@@ -1,0 +1,7 @@
+JAVA_HOME: /usr/lib/jvm/java-11-openjdk-amd64 
+http_port: 9090
+https_port: 9443
+
+# Manager GUI user
+admin_username: admin
+admin_password: Welcome123
